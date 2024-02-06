@@ -2,6 +2,7 @@ package database
 
 import (
 	"database/sql"
+	"fmt"
 
 	"example.com/go/demoHTTP/models"
 )
@@ -19,8 +20,9 @@ type SalonStore struct {
 func (t *SalonStore) GetSalons() ([]models.Salon, error) {
 	var salons []models.Salon
 
-	rows, err := t.Query("SELECT ID, Name, Adresse, Tel FROM Salons")
+	rows, err := t.Query("SELECT id, name, adresse, tel FROM Salons")
 	if err != nil {
+		fmt.Println("Erreur lors de l'exécution de la requête SQL:", err)
 		return []models.Salon{}, err
 	}
 
@@ -28,7 +30,8 @@ func (t *SalonStore) GetSalons() ([]models.Salon, error) {
 
 	for rows.Next() {
 		var salon models.Salon
-		if err = rows.Scan(&salon.Adresse, &salon.ID, &salon.Name, &salon.Tel); err != nil {
+		if err = rows.Scan(&salon.ID, &salon.Name, &salon.Adresse, &salon.Tel); err != nil {
+			fmt.Println("Erreur lors de la lecture des lignes:", err)
 			return []models.Salon{}, err
 		}
 		salons = append(salons, salon)
@@ -43,8 +46,9 @@ func (t *SalonStore) GetSalons() ([]models.Salon, error) {
 
 func (t *SalonStore) AddSalon(item models.Salon) (int, error) {
 	// Utilisation de ? comme marqueurs de position pour les valeurs
-	res, err := t.DB.Exec("INSERT INTO salons (Name, Tel, Adresse) VALUES (?, ?, ?)", item.Name, item.Tel, item.Adresse)
+	res, err := t.DB.Exec("INSERT INTO Salons (Name, Tel, Adresse) VALUES ( ?, ?, ?)")
 	if err != nil {
+		fmt.Println("Erreur lors de l'exécution de la requête SQL:", err)
 		return 0, err
 	}
 
@@ -57,7 +61,7 @@ func (t *SalonStore) AddSalon(item models.Salon) (int, error) {
 }
 
 func (t *SalonStore) DeleteSalon(id int) error {
-	_, err := t.DB.Exec("DELETE FROM Salon WHERE id = ?", id)
+	_, err := t.DB.Exec("DELETE FROM Salons WHERE id = ?", id)
 	if err != nil {
 		return err
 	}
@@ -66,7 +70,7 @@ func (t *SalonStore) DeleteSalon(id int) error {
 }
 
 func (t *SalonStore) ToggleSalon(id int) error {
-	_, err := t.DB.Exec("UPDATE Salon SET `completed` = IF (`completed`, 0, 1) WHERE id = ?", id)
+	_, err := t.DB.Exec("UPDATE Salons SET `completed` = IF (`completed`, 0, 1) WHERE id = ?", id)
 	if err != nil {
 		return err
 	}

@@ -6,9 +6,9 @@ var EmbedTemplates embed.FS
 
 type Salon struct {
 	ID      int    `json:"id"`
-	Name    string `json:"Name"`
-	Tel     int    `json:"Tel"`
-	Adresse string `json:"Adresse"`
+	Name    string `json:"name"`
+	Tel     int    `json:"tel"`
+	Adresse string `json:"adresse"`
 }
 
 type SalonStoreInterface interface {

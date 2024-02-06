@@ -14,10 +14,10 @@ func NewHandler(store *database.SalonStore) *Handler {
 
 	handler.Use(middleware.Logger)
 
-	handler.Route("/api", func(r chi.Router) {
+	handler.Route("/", func(r chi.Router) {
 		r.Get("/", handler.GetSalons())
-		r.Post("/", handler.AddSalon())
-		r.Delete("/{id}", handler.DeleteSalon())
+		r.Post("/add", handler.AddSalon())
+		r.Delete("/{id}", handler.DeleteSalon()) // Utilisation de /{id} pour la suppression
 		r.Patch("/{id}", handler.ToggleSalon())
 	})
 
