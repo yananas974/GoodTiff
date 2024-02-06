@@ -1,0 +1,13 @@
+version: "3.8"
+
+services:
+  database:
+    image: mariadb
+    restart: on-failure
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./migrations/createTable.sql:/docker-entrypoint-initdb.d/migration.sql
+    environment:
+      MARIADB_ROOT_PASSWORD: "root"
+      MARIADB_DATABASE: coiffeur

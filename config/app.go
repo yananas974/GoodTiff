@@ -6,20 +6,10 @@ import (
 	"log"
 	"net/http"
 
-	"example.com/go/demoHTTP/models"
+	database "example.com/go/demoHTTP/database"
+	"example.com/go/demoHTTP/web"
 	"github.com/go-sql-driver/mysql"
 )
-
-var Todos = []models.Salon{
-	{
-		ID:      1,
-		Name:    "Faire la vaisselle",
-		Tel:     0606060606,
-		Adresse: "35 rue ",
-	},
-}
-
-//var db *sql.DB
 
 func Connection() {
 
@@ -46,14 +36,8 @@ func Connection() {
 	fmt.Println("Connected")
 
 	//config du router
-	mux := http.NewServeMux()
-
-	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("bienvenue sur la page "))
-	})
-	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("bienvenue sur la page "))
-	})
+	store := database.NewSalonStore(db)
+	mux := web.NewHandler(store)
 
 	//Démarrer le serveur http
 	log.Println("le serveur est lancer sur le port :8097")

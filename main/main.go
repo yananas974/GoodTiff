@@ -7,9 +7,5 @@ import (
 func main() {
 
 	config.Connection()
-	
-
-
-
 
 }
