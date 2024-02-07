@@ -6,7 +6,9 @@ import (
 	"log"
 	"net/http"
 
-	database "example.com/go/demoHTTP/database"
+	salon "example.com/go/demoHTTP/database/salon"
+	user "example.com/go/demoHTTP/database/user"
+
 	"example.com/go/demoHTTP/web"
 	"github.com/go-sql-driver/mysql"
 )
@@ -35,9 +37,15 @@ func Connection() {
 
 	fmt.Println("Connected")
 
-	//config du router
-	store := database.NewSalonStore(db)
-	mux := web.NewHandler(store)
+	store := salon.NewSalonStore(db)
+	userStore := user.NewUserStore(db)
+
+	stores := &web.Stores{
+		SalonStore: store,
+		UserStore:  userStore,
+	}
+
+	mux := web.NewHandler(stores)
 
 	//Démarrer le serveur http
 	log.Println("le serveur est lancer sur le port :8097")

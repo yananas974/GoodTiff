@@ -1,13 +1,13 @@
 package models
 
-type coiffeur struct {
+type Coiffeur struct {
 	Name     string `json:"name"`
 	Lastname string `json:"lastname"`
 	Salon    string `json:"salon"`
 }
 
-type coiffeurStoreInterface interface {
-	GetCoiffeur() ([]Salon, error)
-	AddCoiffeur(item Salon) (int, error)
+type CoiffeurStoreInterface interface {
+	GetCoiffeur() ([]Coiffeur, error)
+	AddCoiffeur(item Coiffeur) (int, error)
 	DeleteCoiffeur(id int) error
 }

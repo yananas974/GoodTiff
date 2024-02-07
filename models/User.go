@@ -8,3 +8,9 @@ type User struct {
 	Email    string `json:"Email"`
 	Password string `json:"Password"`
 }
+
+type UserStoreInterface interface {
+	GetUsers() ([]User, error)
+	AddUser(item User) (int, error)
+	DeleteUser(id int) error
+}
