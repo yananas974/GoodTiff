@@ -25,7 +25,7 @@ func NewHandler(stores *Stores) *Handler {
 		r.Get("/", handler.GetSalons())
 		r.Post("/add", handler.AddSalon())
 		r.Delete("/{id}", handler.DeleteSalon())
-		r.Patch("/{id}", handler.ToggleSalon())
+		
 	})
 
 	handler.Route("/user", func(r chi.Router) {
